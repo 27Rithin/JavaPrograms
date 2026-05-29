@@ -1,0 +1,53 @@
+The Core Concept (Foreign Keys)
+In relational databases, tables relate to each other through keys:
+
+The student_id (PRIMARY KEY) in your students table uniquely identifies each student
+
+Other tables can store this student_id as a FOREIGN KEY to create relationships
+
+Practical Example
+Let's create two related tables:
+
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE courses (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE enrollments (
+    enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,  -- This will reference students.student_id
+    course_id INT,   -- This will reference courses.course_id
+    enrollment_date DATE,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+
+
+Basic Foreign Key Syntax
+-- Column-level syntax (when creating the table)
+CREATE TABLE child_table (
+    column1 datatype,
+    column2 datatype,
+    foreign_key_column datatype REFERENCES parent_table(primary_key_column)
+    [ON DELETE reference_option]
+    [ON UPDATE reference_option]
+);
+
+-- Table-level syntax (more common and flexible)
+CREATE TABLE child_table (
+    column1 datatype,
+    column2 datatype,
+    foreign_key_column datatype,
+    ...,
+    FOREIGN KEY (foreign_key_column) 
+        REFERENCES parent_table(primary_key_column)
+        [ON DELETE reference_option]
+        [ON UPDATE reference_option]
+);

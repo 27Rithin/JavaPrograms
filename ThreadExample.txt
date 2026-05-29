@@ -1,0 +1,88 @@
+import java.util.LinkedList;
+
+ public class ThreadExample
+ 
+ {
+     public static void main(String args[]) throws InterruptedException 
+      {
+          PC pc = new PC();
+          
+          Thread producer = new Thread(pc::produce);
+          Thread consumer = new Thread(pc::consume);
+          
+          producer.start();
+          consumer.start();
+          
+          producer.join();
+          consumer.join();
+      }
+ }
+ 
+ class PC
+ {
+     private final LinkedList<Integer> list = new LinkedList<>();
+     private final int capacity = 2;
+     
+     public void produce()
+     {
+         int value = 0;
+         while(true)
+         {
+             synchronized (this)
+             {
+                 while (list.size() == capacity)
+                 {
+                     waitForNotification();
+                 }
+                 
+                 System.out.println("Producer produced-" + value);
+                 list.add(value++);
+                 
+                 notify();
+                 sleep(1000);
+             }
+         }
+     }
+     
+     public void consume()
+     {
+         while(true)
+         {
+             synchronized(this)
+             {
+                 while (list.isEmpty())
+                 {
+                     waitForNotification();
+                 }
+                 System.out.println("Consumer consumed-" + list.removeFirst());
+                 
+                 notify();
+                 sleep(1000);
+             }
+         }
+     }
+     
+     private void waitForNotification()
+     {
+         try
+         {
+             wait();
+         }
+         catch(InterruptedException e)
+         {
+             Thread.currentThread().interrupt();
+         }
+     }   
+         private void sleep(int millis)
+         {
+             try
+             {
+                 Thread.sleep(millis);
+             }
+             catch (InterruptedException e)
+             {
+                  Thread.currentThread().interrupt();
+             }
+         }
+     }
+ 

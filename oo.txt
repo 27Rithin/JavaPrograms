@@ -1,0 +1,273 @@
+ CREATE TABLE employee (
+    -> Fname VARCHAR(15),
+    -> MINIT CHAR(1),
+    -> Lname VARCHAR(15),
+    -> SSN INT(9) PRIMARY KEY,
+    -> Bdate DATE,
+    -> ADDRESS VARCHAR(50),
+    -> SEX CHAR(1),
+    -> SALARY DECIMAL(8, 2),
+    -> SUPERSSN INT(9),
+    -> DNO INT
+    -> );
+Query OK, 0 rows affected, 2 warnings (0.73 sec)
+
+
+mysql> INSERT INTO employee VALUES
+    -> ('John', 'k', 'Smith', 111111111, '1995-08-23', 'Tirupati', 'M', 50000.00, 222222222, 1),
+    -> ('Arjun', 'M', 'Reddy', 333333333, '1996-09-21', 'Kadapa', 'M', 52000.00, 555555555, 3);
+Query OK, 2 rows affected (0.42 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+SELECT * FROM employee;
++-------+-------+-------+-----------+------------+----------+------+----------+-----------+------+
+| Fname | MINIT | Lname | SSN       | Bdate      | ADDRESS  | SEX  | SALARY   | SUPERSSN  | DNO  |
++-------+-------+-------+-----------+------------+----------+------+----------+-----------+------+
+| John  | k     | Smith | 111111111 | 1995-08-23 | Tirupati | M    | 50000.00 | 222222222 |    1 |
+| Arjun | M     | Reddy | 333333333 | 1996-09-21 | Kadapa   | M    | 52000.00 | 555555555 |    3 |
++-------+-------+-------+-----------+------------+----------+------+----------+-----------+------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Fname, Lname, SALARY FROM employee;
++-------+-------+----------+
+| Fname | Lname | SALARY   |
++-------+-------+----------+
+| John  | Smith | 50000.00 |
+| Arjun | Reddy | 52000.00 |
++-------+-------+----------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> CREATE TABLE dependent (
+    -> ESSN INT,
+    -> dependent_name VARCHAR(15),
+    -> SEX CHAR(1),
+    -> BDATE DATE,
+    -> RELATIONSHIP VARCHAR(20),
+    -> CONSTRAINT FK_DEP FOREIGN KEY (ESSN) REFERENCES employee(SSN)
+    -> );
+Query OK, 0 rows affected (0.52 sec)
+
+mysql> desc dependent;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| ESSN           | int         | YES  | MUL | NULL    |       |
+| dependent_name | varchar(15) | YES  |     | NULL    |       |
+| SEX            | char(1)     | YES  |     | NULL    |       |
+| BDATE          | date        | YES  |     | NULL    |       |
+| RELATIONSHIP   | varchar(20) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+mysql> INSERT INTO dependent VALUES
+    -> (111111111, 'Rithin', 'M', '1997-06-21', 'Son'),
+    -> (333333333, 'Uday', 'M', '1996-09-23', 'Brother');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * FROM dependent;
++-----------+----------------+------+------------+--------------+
+| ESSN      | dependent_name | SEX  | BDATE      | RELATIONSHIP |
++-----------+----------------+------+------------+--------------+
+| 111111111 | Rithin         | M    | 1997-06-21 | Son          |
+| 333333333 | Uday           | M    | 1996-09-23 | Brother      |
++-----------+----------------+------+------------+--------------+
+2 rows in set (0.00 sec)
+
+
+
+SELECT * FROM employee
+WHERE SALARY > 50000;
+
+
+UPDATE employee
+SET SALARY = SALARY * 1.10
+WHERE Fname = 'Arjun' AND Lname = 'Reddy';
+
+
+
+
+mysql> CREATE TABLE location (
+    -> eid INT,
+    -> door no VARCHAR(15),
+    -> street VARCHAR(20),
+    -> city VARCHAR(20)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no VARCHAR(15),
+street VARCHAR(20),
+city VARCHAR(20)
+)' at line 3
+mysql> CREATE TABLE location (
+    -> eid INT,
+    -> doorno VARCHAR(15),
+    -> Street VARCHAR(20),
+    -> City VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> CREATE TABLE person (
+    -> eid INT,
+    -> name VARCHAR(19),
+    -> age INT,
+    -> Gender CHAR(1)
+    -> );
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> CREATE TABLE qualification (
+    -> eid INT,
+    -> course VARCHAR(10),
+    -> class VARCHAR(10),
+    -> avg VARCHAR(10)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE dept (
+    -> eid INT,
+    -> deptno INT,
+    -> dname VARCHAR(10)
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> CREATE TABLE employ (
+    -> eid INT PRIMARY KEY,
+    -> SALARY DECIMAL(8, 2)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO employ VALUES
+    -> (999, 30000);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO location VALUES
+    -> (999, 'j8', 'bhavani nagar', 'tirupati');
+Query OK, 1 row affected (0.74 sec)
+
+mysql> INSERT INTO person VALUES
+    -> (999, 'rithin', 22, 'M');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO qualification VALUES
+    -> (999, 'p.g', 'second', '65');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO dept VALUES
+    -> (999, 7, 'm.c.a');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> SELECT e.eid, p.name, p.age, p.gender, l.doorno, l.street, l.city, q.course, q.class, q.avg, d.deptno, d.dname, e.salary
+    -> FROM employ e
+    -> JOIN person p ON e.eid = p.eid
+    -> JOIN location l ON e.eid = l.eid
+    -> JOIN qualification q ON e.eid = q.eid
+    -> JOIN dept d ON e.eid = d.eid;
++-----+--------+------+--------+--------+---------------+----------+--------+--------+------+--------+-------+----------+
+| eid | name   | age  | gender | doorno | street        | city     | course | class  | avg  | deptno | dname | salary   |
++-----+--------+------+--------+--------+---------------+----------+--------+--------+------+--------+-------+----------+
+| 999 | rithin |   22 | M      | j8     | bhavani nagar | tirupati | p.g    | second | 65   |      7 | m.c.a | 30000.00 |
++-----+--------+------+--------+--------+---------------+----------+--------+--------+------+--------+-------+----------+
+1 row in set (0.30 sec)
+
+mysql> CREATE TYPE subjects AS VARRAY(10) OF VARCHAR2(10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TYPE subjects AS VARRAY(10) OF VARCHAR2(10)' at line 1
+mysql> CREATE TABLE students (
+    -> sid INT PRIMARY KEY,
+    -> sname VARCHAR(20),
+    -> dno INT,
+    -> sem VARCHAR(10)
+    -> );
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> CREATE TABLE student_subjects (
+    -> sid INT,
+    -> subject VARCHAR(10),
+    -> FOREIGN KEY(sid) REFERENCES students(sid)
+    -> );
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> INSERT INTO students VALUES
+    -> (111, 'rithin', 7, 'first'),
+    -> (231, 'jashu', 4, 'second');
+Query OK, 2 rows affected (0.06 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO student_subjects VALUES
+    -> (111, 'C'), (111, 'cf'), (111, 'java'), (111, 'python'),
+    -> (231, 'afm'), (231, 'coor'), (231, 'wd'), (231, 'coor');
+Query OK, 8 rows affected (0.30 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> SELECT s.sid, s.sname, ss.subject
+    -> FROM students s
+    -> JOIN student_subjects ss ON s.sid = ss.sid;
++-----+--------+---------+
+| sid | sname  | subject |
++-----+--------+---------+
+| 111 | rithin | C       |
+| 111 | rithin | cf      |
+| 111 | rithin | java    |
+| 111 | rithin | python  |
+| 231 | jashu  | afm     |
+| 231 | jashu  | coor    |
+| 231 | jashu  | wd      |
+| 231 | jashu  | coor    |
++-----+--------+---------+
+8 rows in set (0.00 sec)
+
+
+
+
+ALTER TABLE table_name ADD column_name datatype;
+
+ALTER TABLE employee ADD Bdate DATE;
+
+ALTER TABLE table_name
+
+ADD CONSTRAINT constraint_name
+
+PRIMARY KEY (column_name);
+
+
+
+
+
+ALTER TABLE employees ADD COLUMN salary INT;
+ALTER TABLE employees MODIFY COLUMN salary DECIMAL(10,2);
+ALTER TABLE employees DROP COLUMN salary;
+
+
+
+
+UPDATE employees SET salary = 50000 WHERE employee_id = 101;
+
+
+
+
+ALTER TABLE table_name
+ADD COLUMN column_name data_type;
+
+
+
+
+ALTER TABLE table_name
+MODIFY COLUMN column_name data_type;
+
+
+ALTER TABLE table_name
+DROP COLUMN column_name;
+
+
+UPDATE table_name
+SET column_name = new_value
+WHERE condition;
+
+DROP TABLE table_name;
+
+TRUNCATE TABLE table_name;
+
+DELETE FROM table_name WHERE condition;
+
+

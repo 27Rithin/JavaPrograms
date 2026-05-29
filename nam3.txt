@@ -1,0 +1,62 @@
+DDL Commands with Syntax & Examples
+👉 CREATE
+Syntax:
+
+CREATE TABLE table_name (
+  column1 datatype,
+  column2 datatype,
+  ...
+);
+
+
+CREATE TABLE Students (
+  ID INT,
+  Name VARCHAR(50),
+  Age INT
+);
+ 
+
+
+Used to modify structure (e.g., add column).
+
+ALTER TABLE Students ADD Email VARCHAR(100);
+
+
+
+Deletes the entire table.
+DROP TABLE Students;
+
+DML Commands with Examples
+👉 INSERT
+Example:
+
+sql
+Copy code
+
+INSERT INTO Students (ID, Name, Age)
+VALUES (1, 'Ram', 20);
+
+UPDATE Students SET Age = 21 WHERE ID = 1;
+
+DELETE FROM Students WHERE ID = 1;
+
+
+5. DQL Command
+👉 SELECT
+Example:
+SELECT * FROM Students;
+
+
+. DCL Commands
+Command	Use Case
+GRANT	Give user access to database
+REVOKE	Remove access
+
+
+7. TCL Commands
+Command	Use Case
+COMMIT	Save transaction
+ROLLBACK	Undo transaction
+SAVEPOINT	Save partial state of transaction
+
+

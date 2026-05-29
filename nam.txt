@@ -1,0 +1,242 @@
+C:\Users\rishi>mysql --version
+mysql  Ver 8.0.41 for Win64 on x86_64 (MySQL Community Server - GPL)
+
+C:\Users\rishi>mysql -u root -p
+Enter password: *************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.41 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db_name            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+6 rows in set (0.88 sec)
+
+mysql> create database rithin;
+Query OK, 1 row affected (0.48 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db_name            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| practice           |
+| rithin             |
+| sys                |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> USE RITHIN;
+Database changed
+mysql> CREATE TABLE students (
+    -> student_id INT AUTO_INCREMENT PRIMARY KEY,
+    -> First_name VARCHAR(50) NOT NULL,
+    -> Last_name VARCHAR(50) NOT NULL,
+    -> email VARCHAR(100) UNIQUE,
+    -> date_of_birth DATE,
+    -> phone_number VARCHAR(50),
+    -> address TEXT,
+    -> gender ENUM('MALE', 'FEMALE', 'OTHER'),
+    -> enrollment_date DATETIME DEFAULT CURRENT_TIMESTAMP   DEFAULT CURRENT_TIMESTAMP
+Automatically sets the column to the current date and time when:
+    -> );
+Query OK, 0 rows affected (1.04 sec)
+
+mysql> desc students;
++-----------------+-------------------------------+------+-----+-------------------+-------------------+
+| Field           | Type                          | Null | Key | Default           | Extra             |
++-----------------+-------------------------------+------+-----+-------------------+-------------------+
+| student_id      | int                           | NO   | PRI | NULL              | auto_increment    |
+| First_name      | varchar(50)                   | NO   |     | NULL              |                   |
+| Last_name       | varchar(50)                   | NO   |     | NULL              |                   |
+| email           | varchar(100)                  | YES  | UNI | NULL              |                   |
+| date_of_birth   | date                          | YES  |     | NULL              |                   |
+| phone_number    | varchar(50)                   | YES  |     | NULL              |                   |
+| address         | text                          | YES  |     | NULL              |                   |
+| gender          | enum('MALE','FEMALE','OTHER') | YES  |     | NULL              |                   |
+| enrollment_date | datetime                      | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++-----------------+-------------------------------+------+-----+-------------------+-------------------+
+9 rows in set (0.12 sec)
+
+mysql> INSERT INTO students ('john', 'smith', 'john.smith@gmial.com', '2000-07-27', '+919063070508', '123 main st, new york, NY', 'MALE'),
+    -> INSERT INTO students (First_name, Last_name, email, date_of_birth, phone_number, address, gender)
+    -> VALUES ('john', 'smith', 'john.smith@gmail.com', '2000-07-27', '+919063070508', '123 main st, new york, NY', 'MALE'),
+    -> ('emily', 'johnson', 'emily.j@gmail.com', '2001-08-26', '+919084560508', '456 oak st, LOS ANGELES, LA', 'FEMALE');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''john', 'smith', 'john.smith@gmial.com', '2000-07-27', '+919063070508', '123 mai' at line 1
+mysql> INSERT INTO students (First_name , Last_name, email , date_of_birth, phone_number, address, gender)
+    -> VALUES
+    -> ('John', 'smith', 'john.smith@gmial.com', '2000-07-27', '+919063070508', '123 main st, NEW YORK, NY', 'MALE');
+Query OK, 1 row affected (0.61 sec)
+
+mysql> SELECT * FROM students;
++------------+------------+-----------+----------------------+---------------+---------------+---------------------------+--------+---------------------+
+| student_id | First_name | Last_name | email                | date_of_birth | phone_number  | address                   | gender | enrollment_date     |
++------------+------------+-----------+----------------------+---------------+---------------+---------------------------+--------+---------------------+
+|          1 | John       | smith     | john.smith@gmial.com | 2000-07-27    | +919063070508 | 123 main st, NEW YORK, NY | MALE   | 2025-04-12 21:28:59 |
++------------+------------+-----------+----------------------+---------------+---------------+---------------------------+--------+---------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT student_id, First_name, Last_name, FROM students;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM students' at line 1
+mysql> SELECT student_id, First_name, Last_name FROM students;
++------------+------------+-----------+
+| student_id | First_name | Last_name |
++------------+------------+-----------+
+|          1 | John       | smith     |
++------------+------------+-----------+
+1 row in set (0.00 sec)
+
+mysql>
+
+
+
+alter:
+
+Modifying Tables (Most Common Use):
+
+-- Add a new column
+ALTER TABLE employees ADD COLUMN email VARCHAR(100);
+
+-- Drop a column
+ALTER TABLE employees DROP COLUMN phone_number;
+
+-- Modify a column's data type
+ALTER TABLE employees ALTER COLUMN salary DECIMAL(10,2);
+
+-- Rename a column
+ALTER TABLE employees RENAME COLUMN emp_name TO full_name;
+
+-- Add a constraint
+ALTER TABLE employees ADD CONSTRAINT pk_emp_id PRIMARY KEY (emp_id);
+
+-- Drop a constraint
+ALTER TABLE employees DROP CONSTRAINT pk_emp_id;
+
+
+Modifying Other Database Objects
+-- Rename a table
+ALTER TABLE old_table_name RENAME TO new_table_name;
+
+-- Modify a view
+ALTER VIEW employee_view AS SELECT * FROM employees WHERE active = 1;
+
+-- Alter indexes
+ALTER INDEX idx_name REBUILD;
+
+
+1. Adding New Columns
+
+-- Add a column for student's nationality
+ALTER TABLE students ADD COLUMN nationality VARCHAR(50) AFTER gender;
+
+-- Add a column with default value
+ALTER TABLE students ADD COLUMN is_active BOOLEAN DEFAULT TRUE AFTER enrollment_date;
+
+
+2. Modifying Existing Columns
+
+-- Change column data type
+ALTER TABLE students MODIFY COLUMN phone_number VARCHAR(20);
+
+-- Rename a column
+ALTER TABLE students CHANGE COLUMN First_name first_name VARCHAR(50);
+
+-- Add NOT NULL constraint
+ALTER TABLE students MODIFY COLUMN email VARCHAR(100) NOT NULL;
+
+-- Change ENUM values
+ALTER TABLE students MODIFY COLUMN gender ENUM('MALE','FEMALE','OTHER','PREFER_NOT_TO_SAY');
+
+
+
+
+
+
+4. Table Structure Changes
+
+-- Rename table
+ALTER TABLE students RENAME TO university_students;
+
+-- Change storage engine
+ALTER TABLE students ENGINE = InnoDB;
+
+-- Modify character set
+ALTER TABLE students CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+
+
+3. Constraints Management
+-- Add primary key (though you already have one)
+ALTER TABLE students ADD PRIMARY KEY (student_id);
+
+-- Add foreign key (if relating to another table)
+ALTER TABLE students ADD COLUMN department_id INT;
+ALTER TABLE students ADD CONSTRAINT fk_department 
+    FOREIGN KEY (department_id) REFERENCES departments(department_id);
+
+-- Add unique constraint
+ALTER TABLE students ADD CONSTRAINT uc_phone UNIQUE (phone_number);
+
+
+
+5. Dropping Columns/Constraints
+
+-- Drop a column
+ALTER TABLE students DROP COLUMN is_active;
+
+-- Drop a constraint
+ALTER TABLE students DROP FOREIGN KEY fk_department;
+ALTER TABLE students DROP INDEX uc_phone;
+
+
+
+6. Partitioning (Advanced)
+
+-- Add partitioning by year of enrollment
+ALTER TABLE students PARTITION BY RANGE (YEAR(enrollment_date)) (
+    PARTITION p2020 VALUES LESS THAN (2021),
+    PARTITION p2021 VALUES LESS THAN (2022),
+    PARTITION p2022 VALUES LESS THAN (2023),
+    PARTITION pmax VALUES LESS THAN MAXVALUE
+);
+
+
+7. Modifying Default Values
+-- Change default value
+ALTER TABLE students ALTER COLUMN gender SET DEFAULT 'PREFER_NOT_TO_SAY';
+
+-- Remove default value
+ALTER TABLE students ALTER COLUMN gender DROP DEFAULT;
+
+
+8. Index Operations
+-- Add index
+ALTER TABLE students ADD INDEX idx_last_name (Last_name);
+
+-- Add fulltext index for searching
+ALTER TABLE students ADD FULLTEXT INDEX ft_search (first_name, Last_name, address);
+
+-- Drop index
+ALTER TABLE students DROP INDEX idx_last_name;
+
+Remember to back up your database before performing major ALTER operations, especially those that modify column types or drop columns. Some operations like changing data types or adding constraints may fail if existing data violates the new rules.

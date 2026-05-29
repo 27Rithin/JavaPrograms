@@ -1,0 +1,150 @@
+Case Study Questions & Answers
+🔷 Case Study 1: CREATE TABLE
+Q: Create a table for student information.
+
+✅ Answer:
+
+sql
+Copy code
+
+CREATE TABLE Students (
+  ID INT PRIMARY KEY,
+  Name VARCHAR(50),
+  Age INT,
+  Email VARCHAR(100)
+);
+
+
+🔷 Case Study 2: INSERT Values
+Q: Insert 3 records into the Students table.
+
+✅ Answer:
+INSERT INTO Students (ID, Name, Age, Email)
+VALUES
+  (1, 'Ram', 20, 'ram@gmail.com'),
+  (2, 'Sita', 21, 'sita@gmail.com'),
+  (3, 'Laxman', 22, 'laxman@gmail.com');
+
+🔷 Case Study 3: UPDATE
+Q: Update Sita’s age to 23.
+
+✅ Answer:
+UPDATE Students
+SET Age = 23
+WHERE Name = 'Sita';
+
+🔷 Case Study 4: DELETE
+Q: Delete record of Laxman.
+
+✅ Answer:
+DELETE FROM Students
+WHERE Name = 'Laxman';
+ 
+🔷 Case Study 5: SELECT
+Q: Show all student records.
+
+✅ Answer:
+SELECT * FROM Students;
+
+🔷 Case Study 6: ALTER TABLE
+Q: Add a column Gender to the Students table.
+
+✅ Answer:
+
+ALTER TABLE Students
+ADD Gender VARCHAR(10);
+
+🔷 Case Study 7: DROP TABLE
+Q: Delete the entire Students table.
+
+✅ Answer:
+DROP TABLE Students;
+
+
+
+ 1. EMPLOYEE Table
+
+CREATE TABLE EMPLOYEE (
+  FNAME VARCHAR(20),
+  MINIT CHAR(1),
+  LNAME VARCHAR(20),
+  SSN CHAR(9) PRIMARY KEY,
+  BDATE DATE,
+  ADDRESS VARCHAR(100),
+  SEX CHAR(1),
+  SALARY INT,
+  SUPERSSN CHAR(9),
+  DNO INT
+);
+
+
+INSERT INTO employee (fname, lname, salary)
+VALUES ('&fname', '&lname', &salary);
+
+
+Enter value for fname: John
+Enter value for lname: Smith
+Enter value for salary: 50000
+
+
+2. Use a CSV file or import data
+You can prepare data in Excel, export it as CSV, and load it like this:
+
+LOAD DATA INFILE '/path/to/employees.csv'
+INTO TABLE employee
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+
+2. DEPARTMENT Table
+
+CREATE TABLE DEPARTMENT (
+  DNAME VARCHAR(30),
+  DNUMBER INT PRIMARY KEY,
+  MGRSSN CHAR(9),
+  MGRSTARTDATE DATE
+);
+
+
+3. DEPT_LOCATIONS Table
+CREATE TABLE DEPT_LOCATIONS (
+  DNUMBER INT,
+  DLOCATION VARCHAR(50)
+);
+
+
+4. PROJECT Table
+
+CREATE TABLE PROJECT (
+  PNAME VARCHAR(30),
+  PNUMBER INT PRIMARY KEY,
+  PLOCATION VARCHAR(50),
+  DNUM INT
+);
+
+5. WORKS_ON Table
+CREATE TABLE WORKS_ON (
+  ESSN CHAR(9),
+  PNO INT,
+  HOURS DECIMAL(4,1)
+);
+
+6. DEPENDENT Table
+CREATE TABLE DEPENDENT (
+  ESSN CHAR(9),
+  DEPENDENT_NAME VARCHAR(30),
+  SEX CHAR(1),
+  BDATE DATE,
+  RELATIONSHIP VARCHAR(20)
+);
+
+1. SELECT * FROM EMPLOYEE;
+
+2. SELECT * FROM DEPARTMENT;
+
+3. SELECT * FROM DEPT_LOCATIONS;
+
+4. SELECT * FROM PROJECT;
+
+
