@@ -11,7 +11,7 @@ class Aritmetic
         int multiply = 3 * 4;
         System.out.println(multiply);
 
-        int division = 2 / 5;
+        int division = 10 / 0 ;
         System.out.println(division);
 
         int mod = 2 % 5;
